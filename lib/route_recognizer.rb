@@ -1,11 +1,18 @@
 class RouteRecognizer
   require 'rails'
 
+  class InvalidRoutesError < StandardError; end
+  class NoMatchingRouteError < StandardError; end
+
   attr_accessor :router, :routes_as_string
   def initialize(string='')
     @routes_as_string = string
     @routes = ActionDispatch::Routing::RouteSet.new
-    @routes.draw { eval string } unless string.blank?
+    begin
+      @routes.draw { eval string } unless string.blank?
+    rescue Exception => e       # yes, really, because anything can happen inside an Eval
+      raise InvalidRoutesError, e.message
+    end
   end
 
   def recognize(method,uri)
@@ -15,7 +22,8 @@ class RouteRecognizer
     @routes.router.recognize(request) do |route,params|
       all_params = request.query_parameters.merge params
     end
-    return all_params
+    raise NoMatchingRouteError unless all_params
+    all_params
   end
 
   

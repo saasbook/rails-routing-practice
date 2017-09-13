@@ -13,7 +13,7 @@
           into <tt>config/routes.rb</tt>) separated by newlines. 
         </label>
         <br/>
-        <textarea rows="6" cols="80" id="routes_table_text" name="routes_table_text"><%= @router.routes_as_string -%></textarea>
+        <textarea rows="6" cols="80" id="routes_table_text" name="routes_table_text"><%= @routes -%></textarea>
       </div>
 
       <% if @result %>
@@ -46,7 +46,7 @@
           <option value="PATCH">PATCH</option>
           <option value="DELETE">DELETE</option>
         </select>
-        <input type="text" size="40" name="route_uri" id="route_uri"/>
+        <input type="text" size="40" name="route_uri" id="route_uri" value="/"/>
         <br/>
         <input type="submit" value="Parse Route"/>
       </div>

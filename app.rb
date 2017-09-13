@@ -12,16 +12,19 @@ class RouteRecognizerApp < Sinatra::Base
   end
 
   post '/' do
-    @router = RouteRecognizer.new(params[:routes_table_text])
+    @routes = params[:routes_table_text].to_s
     @result = Result.new
     @result.route = "#{params[:route_method].upcase} #{params[:route_uri]}"
-    result_params = @router.recognize(params[:route_method], params[:route_uri])
-    if result_params
+    begin
+      @router = RouteRecognizer.new(@routes)
+      result_params = @router.recognize(params[:route_method], params[:route_uri])
       @result.controller = result_params.delete(:controller)
       @result.action = result_params.delete(:action)
       @result.params = result_params
-    else
+    rescue RouteRecognizer::NoMatchingRouteError => e
       @result.error = "doesn't match any of the route patterns above."
+    rescue RouteRecognizer::InvalidRoutesError => e
+      @result.error = "can't be parsed because your routes table (top of page) seems to contain an error: #{e.message}"
     end
     erb :main
   end
