@@ -13,14 +13,17 @@ class RouteRecognizerApp < Sinatra::Base
   end
 
   post '/' do
-    byebug
     @router = RouteRecognizer.new(params[:routes_table_text])
-    result_params = @router.recognize(params[:route_method], params[:route_uri])
     @result = Result.new
     @result.route = "#{params[:route_method].upcase} #{params[:route_uri]}"
-    @result.controller = result_params.delete(:controller)
-    @result.action = result_params.delete(:action)
-    @result.params = result_params
+    result_params = @router.recognize(params[:route_method], params[:route_uri])
+    if result_params
+      @result.controller = result_params.delete(:controller)
+      @result.action = result_params.delete(:action)
+      @result.params = result_params
+    else
+      @result.error = "doesn't match any of the route patterns above."
+    end
     erb :main
   end
 end

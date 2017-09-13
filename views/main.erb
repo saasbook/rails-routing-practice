@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
     <title>Rails Routes practice app</title>
   </head>
   <body>
+    <h1>Rails Routes practice app</h1>
     <form action="/" method="post">
       <div class="container" id="routes_table">
         <label for="routes_table_text">
@@ -11,20 +13,26 @@
           into <tt>config/routes.rb</tt>) separated by newlines. 
         </label>
         <br/>
-        <textarea rows="6" cols="80" 
-               id="routes_table_text" name="routes_table_text">
-          <%= @router.routes_as_string %>
-        </textarea>
+        <textarea rows="6" cols="80" id="routes_table_text" name="routes_table_text"><%= @router.routes_as_string -%></textarea>
       </div>
 
       <% if @result %>
       <div class="container" id="result">
-        <p>The route <tt><%= @result.route %></tt> parses to:</p>
-        <ul>
-          <li> Controller: <tt><%= @result.controller %></tt> </li>
-          <li> Action: <tt><%= @result.action %></tt> </li>
-          <li> Params: <tt><%= @result.params.inspect %></tt> </li>
-        </ul>
+        <% if @result.error %>
+        <p class="alert alert-danger"> 
+          <code><%= @result.route %></code> <%= @result.error %>
+        </p>
+        <% else %>
+        <p>The route <code><%= @result.route %></code> parses to:</p>
+        <dl class="row">
+          <dt class="col-sm-3"> Controller</dt>
+          <dd class="col-sm-9"><code><%= @result.controller %></code> </dd>
+          <dt class="col-sm-3"> Action</dt>
+          <dd class="col-sm-9"><code><%= @result.action %></code> </dd>
+          <dt class="col-sm-3"> Params</dt> 
+          <dd class="col-sm-9"><code><%= @result.params.inspect %></code> </dd>
+        </dl>
+        <% end %>
       </div>
       <% end %>
 

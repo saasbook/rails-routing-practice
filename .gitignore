@@ -1,0 +1,4 @@
+coverage
+.ruby-version
+*.swp
+.bundle/
