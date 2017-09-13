@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Rails Routes practice app</title>
+  </head>
+  <body>
+    <form action="/" method="post">
+      <div class="container" id="routes_table">
+        <label for="routes_table_text">
+          Enter one or more routes (such as you would put
+          into <tt>config/routes.rb</tt>) separated by newlines. 
+        </label>
+        <br/>
+        <textarea rows="6" cols="80" 
+               id="routes_table_text" name="routes_table_text">
+          <%= @router.routes_as_string %>
+        </textarea>
+      </div>
+
+      <% if @result %>
+      <div class="container" id="result">
+        <p>The route <tt><%= @result.route %></tt> parses to:</p>
+        <ul>
+          <li> Controller: <tt><%= @result.controller %></tt> </li>
+          <li> Action: <tt><%= @result.action %></tt> </li>
+          <li> Params: <tt><%= @result.params.inspect %></tt> </li>
+        </ul>
+      </div>
+      <% end %>
+
+      <div class="container" id="route">
+        <p>Enter a route (HTTP verb + URI) to see how it would be
+          interpreted relative to the routes above.</p>
+        <select name="route_method" id="route_method">
+          <option value="GET">GET</option>
+          <option value="POST">POST</option>
+          <option value="PUT">PUT</option>
+          <option value="PATCH">PATCH</option>
+          <option value="DELETE">DELETE</option>
+        </select>
+        <input type="text" size="40" name="route_uri" id="route_uri"/>
+        <br/>
+        <input type="submit" value="Parse Route"/>
+      </div>
+    </form>
+  </body>
+</html>
