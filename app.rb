@@ -1,6 +1,5 @@
 require 'sinatra/base'
 require './lib/route_recognizer.rb'
-require 'byebug'
 
 Result = Struct.new(:route, :controller, :action, :params, :error)
 
