@@ -1,5 +1,5 @@
 class RouteRecognizer
-  require 'actionpack'
+  require 'rails'
 
   attr_accessor :router, :routes_as_string
   def initialize(string='')
