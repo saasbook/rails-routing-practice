@@ -19,19 +19,25 @@
       <% if @result %>
       <div class="container" id="result">
         <% if @result.error %>
-        <p class="alert alert-danger"> 
-          <code><%= @result.route %></code> <%= @result.error %>
-        </p>
+          <p class="alert alert-danger"> 
+            <code><%= @result.route %></code> <%= @result.error %>
+          </p>
         <% else %>
-        <p>The route <code><%= @result.route %></code> parses to:</p>
-        <dl class="row">
-          <dt class="col-sm-3"> Controller</dt>
-          <dd class="col-sm-9"><code><%= @result.controller %></code> </dd>
-          <dt class="col-sm-3"> Action</dt>
-          <dd class="col-sm-9"><code><%= @result.action %></code> </dd>
-          <dt class="col-sm-3"> Params</dt> 
-          <dd class="col-sm-9"><code><%= @result.params.inspect %></code> </dd>
-        </dl>
+          <p>The route <code><%= @result.route %></code> parses to:</p>
+          <dl class="row">
+            <dt class="col-sm-3"> Controller</dt>
+            <dd class="col-sm-9"><code><%= @result.controller %></code> </dd>
+            <dt class="col-sm-3"> Action</dt>
+            <dd class="col-sm-9"><code><%= @result.action %></code> </dd>
+            <dt class="col-sm-3"> Params</dt> 
+            <dd class="col-sm-9"><code><%= @result.params.inspect %></code> </dd>
+          <% if @is_post %>
+            <dt class="col-sm-3"></dt>
+            <dd class="col-sm-9">(Since this URL would usually be used to post a
+              form, <code>params</code> would also have a key for each
+              named form field whose value is the value of that field.)</dd>
+          <% end %>
+          </dl>
         <% end %>
       </div>
       <% end %>

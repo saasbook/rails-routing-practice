@@ -14,7 +14,10 @@ class RouteRecognizerApp < Sinatra::Base
   post '/' do
     @routes = params[:routes_table_text].to_s
     @result = Result.new
-    @result.route = "#{params[:route_method].upcase} #{params[:route_uri]}"
+    method = params[:route_method].upcase
+    @is_post = %w(POST PUT PATCH).include?(method)
+    @result.route = "#{method} #{params[:route_uri]}"
+    logger.info %Q{::#{@result.route}::#{@routes.gsub("\n"," ; ")}}
     begin
       @router = RouteRecognizer.new(@routes)
       result_params = @router.recognize(params[:route_method], params[:route_uri])
